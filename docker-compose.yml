@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  # Telegram Bot — polls for messages and ingests content
+  telegram-bot:
+    build: .
+    command: python -m telegram_bot.bot
+    env_file: .env
+    volumes:
+      - media_data:/app/media_store
+      - db_data:/app/data
+    restart: unless-stopped
+
+  # Web App — browse, search, and share content
+  webapp:
+    build: .
+    command: uvicorn webapp.app:app --host 0.0.0.0 --port 8000
+    env_file: .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - media_data:/app/media_store
+      - db_data:/app/data
+    restart: unless-stopped
+
+volumes:
+  media_data:
+  db_data:
