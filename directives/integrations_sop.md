@@ -105,7 +105,38 @@ Standard operating procedures for each integrated AI tool and messaging platform
 
 ---
 
-## 6. Messaging Platforms
+## 6. AnythingLLM — RAG Document Chat
+
+**What it does:** All-in-one private ChatGPT with built-in RAG. Upload your business documents, SOPs, research, and client files — then chat with them directly. Workspace-per-context means Eagle Eye, Lotus Group, and MetaOS each have their own isolated document library.
+
+**Our usage:**
+- Primary `KNOWLEDGE` intent backend — chat with your uploaded business docs
+- `RESEARCH` intent — search indexed documents before hitting the web
+- Eagle Eye: client proposals, SOP docs, market research, training materials
+- Lotus Group: meeting notes, contracts, business plans
+- MetaOS/Q3bi: architecture docs, design specs, feature roadmaps
+- Personal: saved articles, notes, web clippings
+
+**Setup:**
+1. Set `ANYTHINGLLM_URL` (default: `http://anythingllm:3001`)
+2. Set `ANYTHINGLLM_API_KEY` in `.env` (generate in AnythingLLM UI → Settings → API Keys)
+3. Deploy: `docker-compose up anythingllm`
+4. Create workspaces in UI matching these slug names:
+   - `eagle-eye-vision-labz`
+   - `lotus-group`
+   - `metaos-q3bi`
+   - `personal`
+   - `family`
+5. Upload documents to each workspace (drag & drop in UI, or use `/api/v1/workspace/{slug}/upload`)
+
+**API:**
+- Chat: `POST /api/v1/workspace/{slug}/chat`
+- Upload: `POST /api/v1/workspace/{slug}/upload/raw-text`
+- Swagger docs: `http://anythingllm:3001/api/docs`
+
+---
+
+## 7. Messaging Platforms
 
 ### Telegram (✅ Active)
 - Bot: M3taz Hub bot (@your_bot)

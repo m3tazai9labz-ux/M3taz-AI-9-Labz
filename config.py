@@ -79,6 +79,12 @@ OPENCLAW_API_KEY = os.getenv("OPENCLAW_API_KEY", "")
 OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen3-coder")
 
+# AI: AnythingLLM — RAG-powered document chat with workspace-per-context
+# Each business context maps to its own workspace (create these in the UI first)
+ANYTHINGLLM_URL = os.getenv("ANYTHINGLLM_URL", "http://localhost:3001")
+ANYTHINGLLM_API_KEY = os.getenv("ANYTHINGLLM_API_KEY", "")
+ANYTHINGLLM_DEFAULT_WORKSPACE = os.getenv("ANYTHINGLLM_DEFAULT_WORKSPACE", "personal")
+
 # Content categories
 CONTENT_CATEGORIES = [
     "research",       # ChatGPT articles, web research
@@ -106,9 +112,9 @@ CHAT_CONTEXTS = {
 
 # Per-context preferred AI backend
 CONTEXT_AI_PREFERENCE = {
-    "eagle_eye": ["eigent", "agent_zero", "open_webui"],
-    "lotus_group": ["open_webui", "eigent"],
-    "meta": ["agent_zero", "eigent", "open_webui"],
-    "personal": ["openclaw", "open_webui"],
-    "family": ["open_webui"],
+    "eagle_eye":   ["eigent", "anythingllm", "agent_zero", "open_webui"],
+    "lotus_group": ["anythingllm", "open_webui", "eigent"],
+    "meta":        ["agent_zero", "eigent", "anythingllm", "open_webui"],
+    "personal":    ["openclaw", "anythingllm", "open_webui"],
+    "family":      ["open_webui"],
 }

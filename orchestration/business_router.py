@@ -17,11 +17,11 @@ logger = logging.getLogger(__name__)
 INTENT_BACKEND_MAP: dict[str, list[str]] = {
     Intent.CHAT: ["open_webui", "ollama", "anthropic"],
     Intent.TASK: ["eigent", "agent_zero", "open_webui"],
-    Intent.RESEARCH: ["eigent", "agent_zero"],
+    Intent.RESEARCH: ["eigent", "anythingllm", "agent_zero"],
     Intent.CODE: ["eigent", "agent_zero"],
     Intent.DEEP_REASONING: ["agent_zero", "open_webui"],
-    Intent.KNOWLEDGE: ["affine", "open_webui"],
-    Intent.DOCUMENT: ["eigent", "affine"],
+    Intent.KNOWLEDGE: ["anythingllm", "affine", "open_webui"],
+    Intent.DOCUMENT: ["eigent", "anythingllm", "affine"],
     Intent.AUTOMATION: ["openclaw", "eigent"],
     Intent.CONTENT_INGEST: [],
 }
@@ -52,6 +52,7 @@ class BusinessRouter:
         from integrations.affine import AFFiNEClient
         from integrations.openclaw import OpenClawClient
         from integrations.ollama import OllamaClient
+        from integrations.anythingllm import AnythingLLMClient
 
         clients = {
             "open_webui": OpenWebUIClient(),
@@ -60,6 +61,7 @@ class BusinessRouter:
             "affine": AFFiNEClient(),
             "openclaw": OpenClawClient(),
             "ollama": OllamaClient(),
+            "anythingllm": AnythingLLMClient(),
             "anthropic": None,  # direct fallback handled below
         }
 

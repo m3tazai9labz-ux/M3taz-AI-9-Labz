@@ -16,6 +16,7 @@ Built on the **M3ta'z Kub3 DOE Framework** — Directives → Orchestration → 
 | **Open WebUI** | Self-hosted chat UI + OpenAI-compatible API proxy | 3000 |
 | **Agent Zero** | Hierarchical agent — deep reasoning, code, persistent memory | 50001 |
 | **AFFiNE** | All-in-one workspace — docs, wikis, whiteboards, databases | 3010 |
+| **AnythingLLM** | RAG-powered document chat — workspace per business context | 3001 |
 | **Ollama** | Local LLM inference — privacy-first, no cloud required | 11434 |
 | **M3taz Hub** | Central router — all bots + web dashboard + WhatsApp webhook | 8000 |
 
@@ -95,6 +96,7 @@ integrations/
   eigent.py               Eigent AI client (multi-agent workforce)
   agent_zero.py           Agent Zero client (hierarchical agent)
   affine.py               AFFiNE client (knowledge base)
+  anythingllm.py          AnythingLLM client (RAG document chat, workspace per context)
   openclaw.py             OpenClaw client (skills engine)
   ollama.py               Ollama client (local LLM inference)
 

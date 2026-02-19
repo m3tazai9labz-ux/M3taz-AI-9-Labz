@@ -20,6 +20,8 @@ All messages from any platform (Telegram, WhatsApp, Discord, Slack) flow through
 | **Open WebUI** | Self-hosted chat UI; OpenAI-compatible API proxy | 3000 | `ghcr.io/open-webui/open-webui` |
 | **Agent Zero** | General-purpose hierarchical agent; deep reasoning; code + terminal | 50001 | `agent0ai/agent-zero` |
 | **AFFiNE** | All-in-one workspace; knowledge base; SOPs; wikis; whiteboards | 3010 | `ghcr.io/toeverything/affine` |
+| **AnythingLLM** | RAG-powered document chat; workspace per business context; private ChatGPT | 3001 | `mintplexlabs/anythingllm` |
+| **Ollama** | Local LLM inference (qwen3-coder, glm-4.7, gpt-oss); Claude Code local dev | 11434 | `ollama/ollama` |
 | **M3taz Hub** | Central FastAPI hub + all platform bots | 8000 | (this repo) |
 | **SurrealDB** | Unified multi-model database | 8001 | `surrealdb/surrealdb` |
 
