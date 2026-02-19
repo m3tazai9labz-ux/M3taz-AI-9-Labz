@@ -1,28 +1,146 @@
 version: "3.9"
 
-services:
-  # Telegram Bot — polls for messages and ingests content
-  telegram-bot:
-    build: .
-    command: python -m telegram_bot.bot
-    env_file: .env
-    volumes:
-      - media_data:/app/media_store
-      - db_data:/app/data
-    restart: unless-stopped
+# ──────────────────────────────────────────────────────────────────────────────
+# M3ta'z A.I. 9 Labz — Full Stack
+# ──────────────────────────────────────────────────────────────────────────────
+# Start everything:   docker-compose up -d
+# Hub only:           docker-compose up -d hub
+# AI stack only:      docker-compose up -d open-webui agent-zero eigent affine
+# ──────────────────────────────────────────────────────────────────────────────
 
-  # Web App — browse, search, and share content
-  webapp:
+services:
+
+  # ── M3taz Hub ─────────────────────────────────────────────────────────────
+  # Central hub: Telegram + Discord + Slack + WhatsApp bots + Web dashboard
+  hub:
     build: .
-    command: uvicorn webapp.app:app --host 0.0.0.0 --port 8000
+    command: python main.py
     env_file: .env
     ports:
-      - "8000:8000"
+      - "8000:8000"      # Web dashboard + WhatsApp webhook
     volumes:
       - media_data:/app/media_store
       - db_data:/app/data
+    depends_on:
+      - open-webui
+      - agent-zero
+    restart: unless-stopped
+
+  # ── Open WebUI ─────────────────────────────────────────────────────────────
+  # Self-hosted chat UI + OpenAI-compatible API proxy
+  # Access UI: http://localhost:3000
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    ports:
+      - "3000:8080"
+    volumes:
+      - open_webui_data:/app/backend/data
+    environment:
+      - WEBUI_SECRET_KEY=${WEBAPP_SECRET_KEY}
+    restart: unless-stopped
+
+  # ── Agent Zero ─────────────────────────────────────────────────────────────
+  # Hierarchical AI agent — code execution, deep reasoning, persistent memory
+  # Access UI: http://localhost:50001
+  agent-zero:
+    image: agent0ai/agent-zero:latest
+    ports:
+      - "50001:80"
+    volumes:
+      - agent_zero_data:/a0
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    restart: unless-stopped
+
+  # ── Eigent AI ──────────────────────────────────────────────────────────────
+  # Multi-agent workforce: Developer, Browser, Document, Multi-Modal agents
+  # Access UI: http://localhost:7070
+  eigent:
+    image: ghcr.io/eigent-ai/eigent:latest
+    ports:
+      - "7070:7070"
+    volumes:
+      - eigent_data:/app/data
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    restart: unless-stopped
+
+  # ── AFFiNE ─────────────────────────────────────────────────────────────────
+  # All-in-one workspace: docs, whiteboards, databases (knowledge base)
+  # Access UI: http://localhost:3010
+  affine:
+    image: ghcr.io/toeverything/affine-graphql:stable
+    ports:
+      - "3010:3010"
+    volumes:
+      - affine_data:/root/.affine
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+
+  # ── OpenClaw ───────────────────────────────────────────────────────────────
+  # Personal AI agent daemon — multi-platform messaging + skills engine
+  # Connects to: Telegram, WhatsApp, Discord, Slack, Signal, Teams, and more
+  openclaw:
+    image: ghcr.io/openclaw/openclaw:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - openclaw_data:/app/data
+      - ./execution/openclaw_skills:/app/skills/custom  # mount custom skills
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - OPENCLAW_API_KEY=${OPENCLAW_API_KEY}
+    restart: unless-stopped
+
+  # ── Ollama ─────────────────────────────────────────────────────────────────
+  # Local LLM inference — privacy-first, no cloud required
+  # Models: qwen3-coder, glm-4.7, gpt-oss:20b, gpt-oss:120b
+  # Claude Code + Ollama: ollama launch claude
+  # Access API: http://localhost:11434
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_ORIGINS=*
+    # Uncomment for GPU support (NVIDIA):
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+    restart: unless-stopped
+
+  # ── AnythingLLM ────────────────────────────────────────────────────────────
+  # RAG-powered document chat — workspace per business context
+  # Access UI: http://localhost:3001
+  # API docs:  http://localhost:3001/api/docs
+  # Workspaces to create in UI: eagle-eye-vision-labz, lotus-group, metaos-q3bi, personal, family
+  anythingllm:
+    image: mintplexlabs/anythingllm:master
+    cap_add:
+      - SYS_ADMIN            # required for Puppeteer web scraping
+    ports:
+      - "3001:3001"
+    volumes:
+      - anythingllm_data:/app/server/storage
+    environment:
+      - STORAGE_DIR=/app/server/storage
+      - JWT_SECRET=${WEBAPP_SECRET_KEY}
     restart: unless-stopped
 
 volumes:
   media_data:
   db_data:
+  open_webui_data:
+  agent_zero_data:
+  eigent_data:
+  affine_data:
+  openclaw_data:
+  ollama_data:
+  anythingllm_data:
