@@ -27,6 +27,22 @@ async def startup():
     await init_db()
 
 
+# ── WhatsApp Webhook ───────────────────────────────────────────────
+from whatsapp.bot import whatsapp_verify, whatsapp_webhook  # noqa: E402
+
+
+@app.get("/webhooks/whatsapp")
+async def wa_verify(request: Request):
+    """WhatsApp webhook verification (Meta challenge-response)."""
+    return await whatsapp_verify(request)
+
+
+@app.post("/webhooks/whatsapp")
+async def wa_incoming(request: Request):
+    """Receive incoming WhatsApp messages and route them."""
+    return await whatsapp_webhook(request)
+
+
 # ── API Endpoints ─────────────────────────────────────────────────
 
 @app.get("/api/items", response_class=JSONResponse)
