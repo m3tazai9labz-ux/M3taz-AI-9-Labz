@@ -31,6 +31,7 @@ Intents:
 - CONTENT_INGEST — explicit save/ingest request or attachment-only message
 - AUTOMATION    — schedule or trigger-based automation ("every day at 9am", "when X happens")
 - DOCUMENT      — create/edit a doc, slide deck, report, or structured output
+- CRM           — contact/lead/deal management ("find contact", "add lead", "update pipeline", "show deals", "send SMS to client")
 
 Reply with ONLY valid JSON (no markdown):
 {
@@ -50,6 +51,7 @@ class Intent(StrEnum):
     CONTENT_INGEST = "CONTENT_INGEST"
     AUTOMATION = "AUTOMATION"
     DOCUMENT = "DOCUMENT"
+    CRM = "CRM"
 
 
 class IntentClassifier:
@@ -117,6 +119,12 @@ class IntentClassifier:
             return Intent.KNOWLEDGE, "knowledge lookup"
         if any(k in t for k in ["analyze", "strategy", "plan", "think through", "reasoning"]):
             return Intent.DEEP_REASONING, "deep analysis"
+        if any(k in t for k in [
+            "contact", "lead", "deal", "pipeline", "opportunity", "crm",
+            "send sms", "send email to client", "add contact", "find contact",
+            "update lead", "gohighlevel", "ghl", "lark crm",
+        ]):
+            return Intent.CRM, "CRM operation"
         if any(k in t for k in ["do this", "complete", "task", "handle", "manage", "run"]):
             return Intent.TASK, "general task"
         return Intent.CHAT, "conversation"

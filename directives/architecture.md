@@ -22,6 +22,8 @@ All messages from any platform (Telegram, WhatsApp, Discord, Slack) flow through
 | **AFFiNE** | All-in-one workspace; knowledge base; SOPs; wikis; whiteboards | 3010 | `ghcr.io/toeverything/affine` |
 | **AnythingLLM** | RAG-powered document chat; workspace per business context; private ChatGPT | 3001 | `mintplexlabs/anythingllm` |
 | **Ollama** | Local LLM inference (qwen3-coder, glm-4.7, gpt-oss); Claude Code local dev | 11434 | `ollama/ollama` |
+| **GoHighLevel** | Primary CRM + marketing automation; contacts, pipeline, SMS/email; webhook triggers | cloud | SaaS |
+| **Lark (LarkSuite)** | Enterprise messaging bot; Bitable CRM/database; Docs; Wiki | cloud | SaaS |
 | **M3taz Hub** | Central FastAPI hub + all platform bots | 8000 | (this repo) |
 | **SurrealDB** | Unified multi-model database | 8001 | `surrealdb/surrealdb` |
 
@@ -33,13 +35,16 @@ Each business context gets a tailored AI stack:
 
 ### Eagle Eye Vision Labz (`eagle_eye`)
 *AI Consulting | SaaS | Training | Marketing Automation*
+- CRM & leads → **GoHighLevel** (contacts, pipeline, SMS auto-reply)
 - Complex tasks → **Eigent AI** (multi-agent workforce)
 - Code & automation → **Agent Zero**
 - Client-facing chat → **Open WebUI**
-- SOPs & knowledge → **AFFiNE**
+- SOPs & knowledge → **AnythingLLM** (RAG) + **AFFiNE** (wiki)
+- Messaging → **Lark** bot (eagle-eye workspace group)
 
 ### Lotus Group (`lotus_group`)
 *Business operations & team collaboration*
+- CRM & pipeline → **GoHighLevel**
 - Team queries → **Open WebUI**
 - Business automation → **Eigent AI** (Document + Browser agents)
 - Knowledge base → **AFFiNE**

@@ -18,9 +18,11 @@ Built on the **M3ta'z Kub3 DOE Framework** — Directives → Orchestration → 
 | **AFFiNE** | All-in-one workspace — docs, wikis, whiteboards, databases | 3010 |
 | **AnythingLLM** | RAG-powered document chat — workspace per business context | 3001 |
 | **Ollama** | Local LLM inference — privacy-first, no cloud required | 11434 |
-| **M3taz Hub** | Central router — all bots + web dashboard + WhatsApp webhook | 8000 |
+| **GoHighLevel** | CRM — contacts, pipeline, SMS/email, webhook automation | cloud |
+| **Lark (LarkSuite)** | Enterprise messaging + Bitable CRM + Docs | cloud |
+| **M3taz Hub** | Central router — all bots + web dashboard + webhooks | 8000 |
 
-## Messaging Platforms
+## Messaging & CRM Platforms
 
 | Platform | Status | Context Routing |
 |----------|--------|-----------------|
@@ -28,14 +30,16 @@ Built on the **M3ta'z Kub3 DOE Framework** — Directives → Orchestration → 
 | WhatsApp | ✅ Built | personal, family (via Meta Cloud API) |
 | Discord | ✅ Built | channel name → business context |
 | Slack | ✅ Built | channel name → business context + Socket Mode |
+| Lark (LarkSuite) | ✅ Built | eagle_eye, lotus_group (webhook bot) |
+| GoHighLevel | ✅ Built | eagle_eye, lotus_group (CRM webhooks + SMS) |
 | Signal / Teams / iMessage | Planned | via OpenClaw skills |
 
 ## Business Contexts
 
 | Context | Business | Primary AI Stack |
 |---------|----------|-----------------|
-| `eagle_eye` | Eagle Eye Vision Labz | Eigent AI + Agent Zero + Open WebUI |
-| `lotus_group` | Lotus Group | Open WebUI + Eigent AI |
+| `eagle_eye` | Eagle Eye Vision Labz | GHL CRM + Eigent AI + AnythingLLM + Agent Zero |
+| `lotus_group` | Lotus Group | GHL CRM + AnythingLLM + Open WebUI |
 | `meta` | MetaOS / Q3bi | Agent Zero + Eigent AI |
 | `personal` | Personal | OpenClaw + Open WebUI |
 | `family` | Family | Open WebUI |
@@ -97,6 +101,8 @@ integrations/
   agent_zero.py           Agent Zero client (hierarchical agent)
   affine.py               AFFiNE client (knowledge base)
   anythingllm.py          AnythingLLM client (RAG document chat, workspace per context)
+  gohighlevel.py          GoHighLevel client (CRM, pipeline, SMS, webhooks)
+  lark.py                 Lark client (messaging, Bitable CRM, Docs)
   openclaw.py             OpenClaw client (skills engine)
   ollama.py               Ollama client (local LLM inference)
 

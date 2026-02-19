@@ -73,6 +73,23 @@ AFFINE_API_KEY = os.getenv("AFFINE_API_KEY", "")
 OPENCLAW_API_URL = os.getenv("OPENCLAW_API_URL", "http://localhost:8080")
 OPENCLAW_API_KEY = os.getenv("OPENCLAW_API_KEY", "")
 
+# CRM: GoHighLevel — marketing automation + sales pipeline + SMS/email
+GHL_API_KEY = os.getenv("GHL_API_KEY", "")
+GHL_LOCATION_ID = os.getenv("GHL_LOCATION_ID", "")
+GHL_WEBHOOK_SECRET = os.getenv("GHL_WEBHOOK_SECRET", "")
+GHL_AUTO_REPLY_SMS = os.getenv("GHL_AUTO_REPLY_SMS", "false").lower() == "true"
+
+# Messaging+CRM: Lark (LarkSuite) — enterprise collaboration + Bitable CRM + Docs
+# International tenants: https://open.larksuite.com  |  CN tenants: https://open.feishu.cn
+LARK_API_BASE = os.getenv("LARK_API_BASE", "https://open.larksuite.com/open-apis")
+LARK_APP_ID = os.getenv("LARK_APP_ID", "")
+LARK_APP_SECRET = os.getenv("LARK_APP_SECRET", "")
+LARK_VERIFY_TOKEN = os.getenv("LARK_VERIFY_TOKEN", "")
+LARK_ENCRYPT_KEY = os.getenv("LARK_ENCRYPT_KEY", "")
+# Lark Base (Bitable) — copy app_token and table_id from your Bitable URL
+LARK_CRM_APP_TOKEN = os.getenv("LARK_CRM_APP_TOKEN", "")
+LARK_CRM_TABLE_ID = os.getenv("LARK_CRM_TABLE_ID", "")
+
 # AI: Ollama — local model inference (Anthropic-compatible API)
 # Run: ollama serve  OR  docker-compose up ollama
 # Claude Code + Ollama: ollama launch claude
@@ -112,8 +129,8 @@ CHAT_CONTEXTS = {
 
 # Per-context preferred AI backend
 CONTEXT_AI_PREFERENCE = {
-    "eagle_eye":   ["eigent", "anythingllm", "agent_zero", "open_webui"],
-    "lotus_group": ["anythingllm", "open_webui", "eigent"],
+    "eagle_eye":   ["gohighlevel", "eigent", "anythingllm", "agent_zero", "open_webui"],
+    "lotus_group": ["gohighlevel", "anythingllm", "open_webui", "eigent"],
     "meta":        ["agent_zero", "eigent", "anythingllm", "open_webui"],
     "personal":    ["openclaw", "anythingllm", "open_webui"],
     "family":      ["open_webui"],

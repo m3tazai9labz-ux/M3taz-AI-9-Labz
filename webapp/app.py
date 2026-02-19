@@ -43,6 +43,27 @@ async def wa_incoming(request: Request):
     return await whatsapp_webhook(request)
 
 
+# ── Lark Webhook ────────────────────────────────────────────────────
+from lark_bot.bot import lark_webhook as _lark_webhook  # noqa: E402
+
+
+@app.get("/webhooks/lark")
+@app.post("/webhooks/lark")
+async def lark_incoming(request: Request):
+    """Lark event webhook — URL verification (GET) + events (POST)."""
+    return await _lark_webhook(request)
+
+
+# ── GoHighLevel Webhook ─────────────────────────────────────────────
+from ghl_webhook.bot import ghl_webhook as _ghl_webhook  # noqa: E402
+
+
+@app.post("/webhooks/gohighlevel")
+async def ghl_incoming(request: Request):
+    """Receive GoHighLevel CRM events (contacts, opportunities, inbound SMS)."""
+    return await _ghl_webhook(request)
+
+
 # ── API Endpoints ─────────────────────────────────────────────────
 
 @app.get("/api/items", response_class=JSONResponse)

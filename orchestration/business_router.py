@@ -22,6 +22,7 @@ INTENT_BACKEND_MAP: dict[str, list[str]] = {
     Intent.DEEP_REASONING: ["agent_zero", "open_webui"],
     Intent.KNOWLEDGE: ["anythingllm", "affine", "open_webui"],
     Intent.DOCUMENT: ["eigent", "anythingllm", "affine"],
+    Intent.CRM: ["gohighlevel", "eigent"],
     Intent.AUTOMATION: ["openclaw", "eigent"],
     Intent.CONTENT_INGEST: [],
 }
@@ -53,6 +54,7 @@ class BusinessRouter:
         from integrations.openclaw import OpenClawClient
         from integrations.ollama import OllamaClient
         from integrations.anythingllm import AnythingLLMClient
+        from integrations.gohighlevel import GHLClient
 
         clients = {
             "open_webui": OpenWebUIClient(),
@@ -62,6 +64,7 @@ class BusinessRouter:
             "openclaw": OpenClawClient(),
             "ollama": OllamaClient(),
             "anythingllm": AnythingLLMClient(),
+            "gohighlevel": GHLClient(),
             "anthropic": None,  # direct fallback handled below
         }
 
