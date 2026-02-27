@@ -1,6 +1,6 @@
 """FastAPI web application for browsing, searching, and sharing content."""
 
-from fastapi import Depends, FastAPI, Query, Request
+from fastapi import Depends, FastAPI, Header, HTTPException, Query, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import func, or_, select
@@ -9,6 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from config import CONTENT_CATEGORIES, MEDIA_STORE_PATH
 from database.engine import async_session, init_db
 from database.models import Collection, CollectionItem, ContentItem, User
+from execution.twin_client import verify_twin_signature
 
 app = FastAPI(
     title="M3ta'z A.I. 9 Labz — Content Hub",
@@ -207,6 +208,56 @@ async def family_shared(db: AsyncSession = Depends(get_db)):
         }
         for item in items
     ]
+
+
+
+# ── Twin.so Webhook ───────────────────────────────────────────────
+
+@app.post("/webhook/twin", response_class=JSONResponse)
+async def twin_webhook(
+    request: Request,
+    x_twin_signature: str | None = Header(default=None),
+    db: AsyncSession = Depends(get_db),
+):
+    """Receive task-completion callbacks from Twin.so AI agents.
+
+    Twin.so POSTs a JSON payload to this endpoint when an automated task
+    finishes.  The payload is stored as a content item so that results
+    appear in the dashboard alongside Telegram-ingested content.
+
+    Twin.so signs the payload with HMAC-SHA256.  Set ``TWIN_WEBHOOK_SECRET``
+    in your ``.env`` file and Twin.so will include the signature in the
+    ``X-Twin-Signature`` header.
+    """
+    body = await request.body()
+
+    if x_twin_signature and not verify_twin_signature(body, x_twin_signature):
+        raise HTTPException(status_code=401, detail="Invalid webhook signature")
+
+    try:
+        data = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid JSON payload")
+
+    task_id = data.get("id") or data.get("task_id", "")
+    description = data.get("description") or data.get("task", "")
+    result_text = data.get("result") or data.get("output") or ""
+    status = data.get("status", "")
+
+    item = ContentItem(
+        content_type="text",
+        category="research",
+        source="twin_ai",
+        title=f"Twin.so task {task_id}" if task_id else "Twin.so automation result",
+        description=description[:500] if description else None,
+        text_content=f"[{status}] {result_text}" if status else result_text,
+        tags="twin_ai,automation",
+    )
+    db.add(item)
+    await db.commit()
+    await db.refresh(item)
+
+    return {"ok": True, "item_id": item.id}
 
 
 # ── HTML Dashboard ────────────────────────────────────────────────

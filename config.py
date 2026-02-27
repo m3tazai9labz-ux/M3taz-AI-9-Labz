@@ -36,6 +36,11 @@ WEBAPP_SECRET_KEY = os.getenv("WEBAPP_SECRET_KEY", "change-me")
 # Media
 MAX_FILE_SIZE_MB = int(os.getenv("MAX_FILE_SIZE_MB", "50"))
 
+# Twin.so AI Automation
+TWIN_API_KEY = os.getenv("TWIN_API_KEY", "")
+TWIN_API_BASE_URL = os.getenv("TWIN_API_BASE_URL", "https://api.twin.so")
+TWIN_WEBHOOK_SECRET = os.getenv("TWIN_WEBHOOK_SECRET", "")
+
 # Content categories
 CONTENT_CATEGORIES = [
     "research",       # ChatGPT articles, web research
